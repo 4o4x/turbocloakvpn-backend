@@ -24,6 +24,7 @@ def revoke_ovpn_config(id):
     process.expect("Select the client to revoke:")
     print(process.before)
     process.sendline(id)
+    process.sendline("y")
     process.sendeof()
     output = process.read()
 
