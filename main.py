@@ -29,7 +29,7 @@ def revoke_ovpn_config(id):
 
 
 @app.route('/create',methods=['GET'])
-def ovpn():
+def create():
     try:
         id = request.headers.get('id')
         
@@ -65,7 +65,7 @@ def ovpn():
 
 
 @app.route('/revoke',methods=['GET'])
-def ovpn():
+def revoke():
     try:
         
         id = request.headers.get('id')
