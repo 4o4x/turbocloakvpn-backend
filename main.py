@@ -29,10 +29,13 @@ def ovpn():
     try:
         
         #data = request.json
+        print("route")
         id = str(time.time()) #str(data.get("id"))
         generate_ovpn_config(id)
+        print("func")
 
         file_path = f'/root/{id}.ovpn'
+
 
         try:
             # Open the file and read its contents
