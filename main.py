@@ -2,6 +2,7 @@ from flask import Flask ,request ,jsonify
 import subprocess
 from flask_cors import CORS
 import pexpect
+import time 
 
 
 count = 0
@@ -9,37 +10,49 @@ count = 0
 app = Flask(__name__)
 CORS(app)
 
-def generate_ovpn_config():
+def generate_ovpn_config(id):
     
     global count
     count = count + 1
-   
-    # bash komutunu çalıştırın ve pexpect.spawn nesnesini oluşturun
+
     process = pexpect.spawn("sudo bash openvpn-install.sh", encoding="utf-8")
-
-    # Menüdeki ilk adımı (1. adımı) tamamlamak için "1" bilgisini gönderin
-    process.sendline("1")
-
-    # İkinci adım için gerekli bilgiyi gönderin (örneğin "randomid12345")
-    process.sendline("rfsfs")
-
-    # Menüden çıkmak için Ctrl+D (EOF) gönderin
+    process.sendline(id)
+    process.sendline("rfsfs")    
     process.sendeof()
-
-    # Menüden çıktıyı alın
     output = process.read()
+    
 
-    # Çıktıyı ekrana yazdırın
-    print(output)
-
-    return True
 
 
 @app.route('/ovpn',methods=['GET'])
 def ovpn():
-    generate_ovpn_config()
-    return "OK",200
+    try:
+        
+        #data = request.json
+        id = str(time.time()) #str(data.get("id"))
+        generate_ovpn_config(id)
 
+        file_path = f'/root/{id}.ovpn'
+
+        try:
+            # Open the file and read its contents
+            with open(file_path, 'r') as file:
+                file_content = file.read()
+
+            # Create a Python dictionary containing the file content
+            data = {
+                'content': file_content
+            }
+
+            # Convert the dictionary to a JSON response using jsonify
+            return jsonify(data),200
+
+        except FileNotFoundError:
+            return jsonify(error="File not found"), 404
+
+
+    except Exception as e:
+        return jsonify(error=str(e)), 500
 
 
 if __name__=='__main__':
