@@ -21,7 +21,7 @@ def generate_ovpn_config(id):
 def revoke_ovpn_config(id):
     process = pexpect.spawn("sudo bash /home/openvpn-install.sh", encoding="utf-8")
     process.sendline("2")
-    process.expect("Select the client to revoke:\n")
+    process.expect("Select the client to revoke:\r")
     print(process.after)
 
     # Menüdeki seçenekleri taramak için bir döngü başlatın
