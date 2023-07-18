@@ -5,19 +5,14 @@ import pexpect
 import time 
 
 
-count = 0
-
 app = Flask(__name__)
 CORS(app)
 
 def generate_ovpn_config(id):
     
-    global count
-    count = count + 1
-
     process = pexpect.spawn("sudo bash /home/openvpn-install.sh", encoding="utf-8")
-    process.sendline(id)
-    process.sendline("rfsfs")    
+    process.sendline("1")
+    process.sendline(id)    
     process.sendeof()
     output = process.read()
     
