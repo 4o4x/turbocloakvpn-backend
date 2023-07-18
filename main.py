@@ -18,14 +18,21 @@ def generate_ovpn_config(id):
     
 
 
+def revoke_ovpn_config(id):
+    process = pexpect.spawn("sudo bash /home/openvpn-install.sh", encoding="utf-8")
+    process.sendline("2")
+    process.expect("Select the client to revoke:")
+    print(process.before)
+    process.sendline(id)
+    process.sendeof()
+    output = process.read()
 
-@app.route('/ovpn',methods=['GET'])
+
+@app.route('/create',methods=['GET'])
 def ovpn():
     try:
+        id = request.headers.get('id')
         
-        #data = request.json
-        print("route")
-        id = str(int(time.time()*100000)) #str(data.get("id"))
 
         generate_ovpn_config(id)
         print("func")
@@ -55,6 +62,19 @@ def ovpn():
 
     except Exception as e:
         return jsonify(error=str(e)), 500
+
+
+@app.route('/revoke',methods=['GET'])
+def ovpn():
+    try:
+        
+        id = request.headers.get('id')
+        revoke_ovpn_config(id)
+        return jsonify(status="OK"),200
+
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+
 
 
 if __name__=='__main__':
