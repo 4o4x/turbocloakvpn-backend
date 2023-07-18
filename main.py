@@ -3,6 +3,7 @@ import subprocess
 from flask_cors import CORS
 import pexpect
 import time 
+import json
 
 
 app = Flask(__name__)
@@ -97,6 +98,19 @@ def revoke():
         id = request.args.get('id')
         revoke_ovpn_config(id)
         return jsonify(status="OK"),200
+
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+    
+
+@app.route('/servers',methods=['GET'])
+def server_list():
+
+    server_json_path = "servers.json"
+    try:
+       with open(server_json_path, 'r') as file:
+            server_data = json.load(file)
+            return jsonify(server_data),200
 
     except Exception as e:
         return jsonify(error=str(e)), 500
