@@ -29,7 +29,7 @@ def ovpn():
         generate_ovpn_config(id)
         print("func")
 
-        file_path = f'/root/{id}.ovpn'
+        file_path = f"/root/{id}.ovpn"
 
 
         try:
