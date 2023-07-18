@@ -31,7 +31,7 @@ def revoke_ovpn_config(id):
 @app.route('/create',methods=['GET'])
 def create():
     try:
-        id = request.headers.get('id')
+        id = request.args.get('id')
 
         print(id)
 
@@ -68,8 +68,7 @@ def create():
 @app.route('/revoke',methods=['GET'])
 def revoke():
     try:
-        
-        id = request.headers.get('id')
+        id = request.args.get('id')
         revoke_ovpn_config(id)
         return jsonify(status="OK"),200
 
