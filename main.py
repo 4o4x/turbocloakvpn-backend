@@ -32,7 +32,8 @@ def revoke_ovpn_config(id):
 def create():
     try:
         id = request.headers.get('id')
-        
+
+        print(id)
 
         generate_ovpn_config(id)
         print("func")
