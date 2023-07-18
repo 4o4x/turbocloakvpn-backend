@@ -15,7 +15,7 @@ def generate_ovpn_config(id):
     global count
     count = count + 1
 
-    process = pexpect.spawn("sudo bash openvpn-install.sh", encoding="utf-8")
+    process = pexpect.spawn("sudo bash /home/openvpn-install.sh", encoding="utf-8")
     process.sendline(id)
     process.sendline("rfsfs")    
     process.sendeof()
