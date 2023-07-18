@@ -29,8 +29,11 @@ def ovpn():
         generate_ovpn_config(id)
         print("func")
 
+        print(str(id))
+
         file_path = f"/root/{id}.ovpn"
 
+        print(file_path)
 
         try:
             # Open the file and read its contents
