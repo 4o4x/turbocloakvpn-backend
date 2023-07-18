@@ -13,9 +13,18 @@ def generate_ovpn_config(id):
     
     process = pexpect.spawn("sudo bash /home/openvpn-install.sh", encoding="utf-8")
     process.sendline("1")
-    process.sendline(id)    
-    process.sendeof()
-    output = process.read()
+    process.sendline(id)
+
+    try:
+        process.expect("Notice",timeout=1)
+        process.sendeof() 
+        output = process.read()
+    except Exception as e:
+        raise Exception(f"{id} already exist")
+    
+    
+    
+    
     
 
 
