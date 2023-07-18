@@ -22,11 +22,35 @@ def revoke_ovpn_config(id):
     process = pexpect.spawn("sudo bash /home/openvpn-install.sh", encoding="utf-8")
     process.sendline("2")
     process.expect("Select the client to revoke:")
-    #print(process.before)
-    process.sendline(id)
+    
+
+    # Menüdeki seçenekleri taramak için bir döngü başlatın
+    while True:
+        # Menüden çıktıyı alın ve satırlara bölelim
+        menu_output = process.before.splitlines()
+
+        # Her satırı kontrol edelim
+        for line in menu_output:
+            # Eğer "id" ismi içeren bir satır bulduysak, ilgili indeks numarasını alalım
+            if id in line:
+                selected_index = line.split(")")[0].strip()
+                break
+        else:
+            # "id" ismi bulunamadıysa, kullanıcıya hata mesajı gösterelim ve çıkış yapalım
+            print(f"'{id}' ismi menüde bulunamadı!")
+            process.terminate()
+            raise Exception(f"{id} is not found")
+
+        # Eğer "selected_index" değeri boş değilse, yani "id" ismi menüde bulunmuşsa, döngüden çık
+        if selected_index:
+            break
+
+    # Seçimi gönderin ve çıktıyı bekleyin
+    process.sendline(selected_index)
     process.sendline("y")
     process.sendeof()
     output = process.read()
+    #process.expect(pexpect.EOF)
 
 
 @app.route('/create',methods=['GET'])
