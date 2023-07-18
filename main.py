@@ -28,7 +28,7 @@ def revoke_ovpn_config(id):
     # Menüdeki seçenekleri taramak için bir döngü başlatın
     while True:
         # Menüden çıktıyı alın ve satırlara bölelim
-        menu_output = process.after.splitlines()
+        menu_output = process.before.splitlines()
 
         # Her satırı kontrol edelim
         for line in menu_output:
