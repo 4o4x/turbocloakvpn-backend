@@ -25,7 +25,8 @@ def ovpn():
         
         #data = request.json
         print("route")
-        id = str(time.time()) #str(data.get("id"))
+        id = str(int(time.time()*100000)) #str(data.get("id"))
+
         generate_ovpn_config(id)
         print("func")
 
